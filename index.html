@@ -140,6 +140,34 @@
             .main-content {
                 grid-template-columns: 1fr;
             }
+
+            /* Hide desktop parameters in options section on mobile */
+            .options-section .parameters-container,
+            .options-section #resetParamsBtn {
+                display: none !important;
+            }
+
+            /* Show mobile parameters section */
+            .mobile-parameters-section {
+                display: block !important;
+            }
+
+            /* Control order of sections */
+            .upload-section {
+                order: 1;
+            }
+
+            .options-section {
+                order: 2;
+            }
+
+            .mobile-parameters-section {
+                order: 3;
+            }
+
+            .results-section {
+                order: 4;
+            }
         }
 
         .card {
@@ -483,6 +511,25 @@
             grid-column: 1 / -1;
         }
 
+        /* Mobile Parameters Section */
+        .mobile-parameters-section {
+            display: none; /* Hidden by default on desktop */
+        }
+
+        .mobile-parameters-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mobile-parameters-section h3::before {
+            content: "🎛️";
+            font-size: 1.3rem;
+        }
+
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -810,7 +857,7 @@
         }
 
         .filter-vibrant label::after {
-            content: "🔴🟡🟢";
+            content: "🔴🟢";
         }
 
         .filter-vintage label::after {
@@ -1257,6 +1304,49 @@
                 </div>
             </div>
 
+            <!-- Mobile Parameters Section (shown only on mobile before Results) -->
+            <div class="card mobile-parameters-section">
+                <h3 id="mobileParamsTitle">调整参数</h3>
+                
+                <!-- Global Parameters (Mobile) -->
+                <div class="parameters-container" id="mobileParametersContainer">
+                    <div class="parameter-group">
+                        <div class="parameter-label">
+                            <span id="mobileIntensityLabel">强度</span>
+                            <span class="parameter-value" id="mobileIntensityValue">55%</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="mobileIntensitySlider" min="0" max="100" value="55">
+                            <input type="number" id="mobileIntensityInput" class="parameter-input" min="0" max="100" value="55">
+                        </div>
+                    </div>
+                    <div class="parameter-group" id="mobileWarmthGroup" style="display: none;">
+                        <div class="parameter-label">
+                            <span id="mobileWarmthLabel">暖色</span>
+                            <span class="parameter-value" id="mobileWarmthValue">0</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="mobileWarmthSlider" min="-100" max="100" value="0">
+                            <input type="number" id="mobileWarmthInput" class="parameter-input" min="-100" max="100" value="0">
+                        </div>
+                    </div>
+                    <div class="parameter-group" id="mobileSaturationGroup">
+                        <div class="parameter-label">
+                            <span id="mobileSaturationLabel">饱和度</span>
+                            <span class="parameter-value" id="mobileSaturationValue">40</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="mobileSaturationSlider" min="-100" max="100" value="40">
+                            <input type="number" id="mobileSaturationInput" class="parameter-input" min="-100" max="100" value="40">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline" id="mobileResetParamsBtn" style="width: 100%; margin-top: 15px;">
+                    <span>↺</span> <span id="mobileResetParamsBtnText">重置参数</span>
+                </button>
+            </div>
+
             <!-- Results Section -->
             <div class="card results-section">
                 <h2 id="resultsTitle">图片画廊</h2>
@@ -1331,6 +1421,11 @@
                 downloadZipBtnText: '下载为ZIP',
                 clearAllBtn: '清除所有',
                 resetParamsBtnText: '重置参数',
+                mobileParamsTitle: '调整参数',
+                mobileIntensityLabel: '强度',
+                mobileWarmthLabel: '暖色',
+                mobileSaturationLabel: '饱和度',
+                mobileResetParamsBtnText: '重置参数',
                 resultsTitle: '结果',
                 galleryCountLabel: '图片总数:',
                 previewInfo: '拖动分隔线对比原图与滤镜效果',
@@ -1385,6 +1480,11 @@
                 downloadZipBtnText: 'Download As Zip',
                 clearAllBtn: 'Clear All',
                 resetParamsBtnText: 'Reset Parameters',
+                mobileParamsTitle: 'Adjust Parameters',
+                mobileIntensityLabel: 'Intensity',
+                mobileWarmthLabel: 'Warmth',
+                mobileSaturationLabel: 'Saturation',
+                mobileResetParamsBtnText: 'Reset Parameters',
                 resultsTitle: 'Result',
                 galleryCountLabel: 'Total Images:',
                 previewInfo: 'Drag divider to compare original vs filtered',
@@ -1502,6 +1602,24 @@
             clearAllBtn: document.getElementById('clearAllBtn'),
             resetParamsBtn: document.getElementById('resetParamsBtn'),
             resetParamsBtnText: document.getElementById('resetParamsBtnText'),
+            // Mobile Parameters
+            mobileParamsTitle: document.getElementById('mobileParamsTitle'),
+            mobileIntensitySlider: document.getElementById('mobileIntensitySlider'),
+            mobileIntensityInput: document.getElementById('mobileIntensityInput'),
+            mobileIntensityValue: document.getElementById('mobileIntensityValue'),
+            mobileIntensityLabel: document.getElementById('mobileIntensityLabel'),
+            mobileWarmthSlider: document.getElementById('mobileWarmthSlider'),
+            mobileWarmthInput: document.getElementById('mobileWarmthInput'),
+            mobileWarmthValue: document.getElementById('mobileWarmthValue'),
+            mobileWarmthLabel: document.getElementById('mobileWarmthLabel'),
+            mobileWarmthGroup: document.getElementById('mobileWarmthGroup'),
+            mobileSaturationSlider: document.getElementById('mobileSaturationSlider'),
+            mobileSaturationInput: document.getElementById('mobileSaturationInput'),
+            mobileSaturationValue: document.getElementById('mobileSaturationValue'),
+            mobileSaturationLabel: document.getElementById('mobileSaturationLabel'),
+            mobileSaturationGroup: document.getElementById('mobileSaturationGroup'),
+            mobileResetParamsBtn: document.getElementById('mobileResetParamsBtn'),
+            mobileResetParamsBtnText: document.getElementById('mobileResetParamsBtnText'),
             // Results
             resultsTitle: document.getElementById('resultsTitle'),
             emptyStateText: document.getElementById('emptyStateText'),
@@ -1579,6 +1697,13 @@
             elements.downloadZipBtnText.textContent = t.downloadZipBtnText;
             elements.clearAllBtn.textContent = t.clearAllBtn;
             elements.resetParamsBtnText.textContent = t.resetParamsBtnText;
+
+            // Mobile Parameters
+            elements.mobileParamsTitle.textContent = t.mobileParamsTitle;
+            elements.mobileIntensityLabel.textContent = t.mobileIntensityLabel;
+            elements.mobileWarmthLabel.textContent = t.mobileWarmthLabel;
+            elements.mobileSaturationLabel.textContent = t.mobileSaturationLabel;
+            elements.mobileResetParamsBtnText.textContent = t.mobileResetParamsBtnText;
 
             // Results
             elements.resultsTitle.textContent = t.resultsTitle;
@@ -1678,6 +1803,10 @@
                     elements.intensitySlider.value = state.currentIntensity;
                     elements.intensityInput.value = state.currentIntensity;
                     elements.intensityValue.textContent = `${state.currentIntensity}%`;
+                    // Sync to mobile
+                    elements.mobileIntensitySlider.value = state.currentIntensity;
+                    elements.mobileIntensityInput.value = state.currentIntensity;
+                    elements.mobileIntensityValue.textContent = `${state.currentIntensity}%`;
                 }
 
                 if (savedWarmth) {
@@ -1685,6 +1814,10 @@
                     elements.warmthSlider.value = state.currentWarmth;
                     elements.warmthInput.value = state.currentWarmth;
                     elements.warmthValue.textContent = state.currentWarmth;
+                    // Sync to mobile
+                    elements.mobileWarmthSlider.value = state.currentWarmth;
+                    elements.mobileWarmthInput.value = state.currentWarmth;
+                    elements.mobileWarmthValue.textContent = state.currentWarmth;
                 }
 
                 if (savedSaturation) {
@@ -1692,6 +1825,10 @@
                     elements.saturationSlider.value = state.currentSaturation;
                     elements.saturationInput.value = state.currentSaturation;
                     elements.saturationValue.textContent = state.currentSaturation;
+                    // Sync to mobile
+                    elements.mobileSaturationSlider.value = state.currentSaturation;
+                    elements.mobileSaturationInput.value = state.currentSaturation;
+                    elements.mobileSaturationValue.textContent = state.currentSaturation;
                 }
             }
 
@@ -1702,25 +1839,37 @@
         function updateParameterVisibility() {
             const filter = state.currentFilter;
 
-            // Reset all visibility
+            // Reset all visibility (Desktop)
             elements.warmthGroup.style.display = 'none';
             elements.saturationGroup.style.display = 'block';
+
+            // Reset all visibility (Mobile)
+            elements.mobileWarmthGroup.style.display = 'none';
+            elements.mobileSaturationGroup.style.display = 'block';
 
             // Show/hide based on filter
             if (filter === 'vibrant') {
                 elements.saturationGroup.style.display = 'block';
+                elements.mobileSaturationGroup.style.display = 'block';
             } else if (filter === 'vintage') {
                 elements.warmthGroup.style.display = 'block';
+                elements.mobileWarmthGroup.style.display = 'block';
             } else if (filter === 'bw') {
                 elements.saturationGroup.style.display = 'none';
+                elements.mobileSaturationGroup.style.display = 'none';
             } else if (filter === 'fresh') {
                 elements.warmthGroup.style.display = 'block';
+                elements.mobileWarmthGroup.style.display = 'block';
             } else if (filter === 'morning') {
                 elements.warmthGroup.style.display = 'block';
                 elements.saturationGroup.style.display = 'block';
+                elements.mobileWarmthGroup.style.display = 'block';
+                elements.mobileSaturationGroup.style.display = 'block';
             } else if (filter === 'evening') {
                 elements.warmthGroup.style.display = 'block';
                 elements.saturationGroup.style.display = 'block';
+                elements.mobileWarmthGroup.style.display = 'block';
+                elements.mobileSaturationGroup.style.display = 'block';
             }
         }
 
@@ -1734,20 +1883,35 @@
             state.currentWarmth = defaults.warmth;
             state.currentSaturation = defaults.saturation;
 
-            // Update UI controls - Intensity
+            // Update UI controls - Intensity (Desktop)
             elements.intensitySlider.value = defaults.intensity;
             elements.intensityInput.value = defaults.intensity;
             elements.intensityValue.textContent = `${defaults.intensity}%`;
 
-            // Update UI controls - Warmth
+            // Update UI controls - Warmth (Desktop)
             elements.warmthSlider.value = defaults.warmth;
             elements.warmthInput.value = defaults.warmth;
             elements.warmthValue.textContent = defaults.warmth;
 
-            // Update UI controls - Saturation
+            // Update UI controls - Saturation (Desktop)
             elements.saturationSlider.value = defaults.saturation;
             elements.saturationInput.value = defaults.saturation;
             elements.saturationValue.textContent = defaults.saturation;
+
+            // Update UI controls - Intensity (Mobile)
+            elements.mobileIntensitySlider.value = defaults.intensity;
+            elements.mobileIntensityInput.value = defaults.intensity;
+            elements.mobileIntensityValue.textContent = `${defaults.intensity}%`;
+
+            // Update UI controls - Warmth (Mobile)
+            elements.mobileWarmthSlider.value = defaults.warmth;
+            elements.mobileWarmthInput.value = defaults.warmth;
+            elements.mobileWarmthValue.textContent = defaults.warmth;
+
+            // Update UI controls - Saturation (Mobile)
+            elements.mobileSaturationSlider.value = defaults.saturation;
+            elements.mobileSaturationInput.value = defaults.saturation;
+            elements.mobileSaturationValue.textContent = defaults.saturation;
 
             // Save the new defaults to preferences
             savePreferences();
@@ -2837,6 +3001,183 @@
                  state.imageSettings[state.selectedImageIndex].saturation === undefined)) {
                 debouncedUpdatePreview();
             }
+        });
+
+        // ===== Mobile Parameters Sync =====
+        // Mobile Intensity slider
+        elements.mobileIntensitySlider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            state.currentIntensity = value;
+            // Sync to desktop
+            elements.intensitySlider.value = value;
+            elements.intensityInput.value = value;
+            elements.intensityValue.textContent = `${value}%`;
+            // Update mobile display
+            elements.mobileIntensityInput.value = value;
+            elements.mobileIntensityValue.textContent = `${value}%`;
+            savePreferences();
+            // Update preview if it's open and no individual settings
+            if (state.selectedImageIndex >= 0 &&
+                (!state.imageSettings[state.selectedImageIndex] ||
+                 state.imageSettings[state.selectedImageIndex].intensity === undefined)) {
+                debouncedUpdatePreview();
+            }
+        });
+
+        elements.mobileIntensityInput.addEventListener('input', (e) => {
+            let value = parseInt(e.target.value) || 0;
+            value = Math.max(0, Math.min(100, value));
+            state.currentIntensity = value;
+            // Sync to desktop
+            elements.intensitySlider.value = value;
+            elements.intensityInput.value = value;
+            elements.intensityValue.textContent = `${value}%`;
+            // Update mobile display
+            elements.mobileIntensitySlider.value = value;
+            elements.mobileIntensityValue.textContent = `${value}%`;
+            savePreferences();
+            // Update preview if it's open and no individual settings
+            if (state.selectedImageIndex >= 0 &&
+                (!state.imageSettings[state.selectedImageIndex] ||
+                 state.imageSettings[state.selectedImageIndex].intensity === undefined)) {
+                debouncedUpdatePreview();
+            }
+        });
+
+        // Mobile Warmth slider
+        elements.mobileWarmthSlider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            state.currentWarmth = value;
+            // Sync to desktop
+            elements.warmthSlider.value = value;
+            elements.warmthInput.value = value;
+            elements.warmthValue.textContent = value;
+            // Update mobile display
+            elements.mobileWarmthInput.value = value;
+            elements.mobileWarmthValue.textContent = value;
+            savePreferences();
+            // Update preview if it's open and no individual settings
+            if (state.selectedImageIndex >= 0 &&
+                (!state.imageSettings[state.selectedImageIndex] ||
+                 state.imageSettings[state.selectedImageIndex].warmth === undefined)) {
+                debouncedUpdatePreview();
+            }
+        });
+
+        elements.mobileWarmthInput.addEventListener('input', (e) => {
+            let value = parseInt(e.target.value) || 0;
+            value = Math.max(-100, Math.min(100, value));
+            state.currentWarmth = value;
+            // Sync to desktop
+            elements.warmthSlider.value = value;
+            elements.warmthInput.value = value;
+            elements.warmthValue.textContent = value;
+            // Update mobile display
+            elements.mobileWarmthSlider.value = value;
+            elements.mobileWarmthValue.textContent = value;
+            savePreferences();
+            // Update preview if it's open and no individual settings
+            if (state.selectedImageIndex >= 0 &&
+                (!state.imageSettings[state.selectedImageIndex] ||
+                 state.imageSettings[state.selectedImageIndex].warmth === undefined)) {
+                debouncedUpdatePreview();
+            }
+        });
+
+        // Mobile Saturation slider
+        elements.mobileSaturationSlider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            state.currentSaturation = value;
+            // Sync to desktop
+            elements.saturationSlider.value = value;
+            elements.saturationInput.value = value;
+            elements.saturationValue.textContent = value;
+            // Update mobile display
+            elements.mobileSaturationInput.value = value;
+            elements.mobileSaturationValue.textContent = value;
+            savePreferences();
+            // Update preview if it's open and no individual settings
+            if (state.selectedImageIndex >= 0 &&
+                (!state.imageSettings[state.selectedImageIndex] ||
+                 state.imageSettings[state.selectedImageIndex].saturation === undefined)) {
+                debouncedUpdatePreview();
+            }
+        });
+
+        elements.mobileSaturationInput.addEventListener('input', (e) => {
+            let value = parseInt(e.target.value) || 0;
+            value = Math.max(-100, Math.min(100, value));
+            state.currentSaturation = value;
+            // Sync to desktop
+            elements.saturationSlider.value = value;
+            elements.saturationInput.value = value;
+            elements.saturationValue.textContent = value;
+            // Update mobile display
+            elements.mobileSaturationSlider.value = value;
+            elements.mobileSaturationValue.textContent = value;
+            savePreferences();
+            // Update preview if it's open and no individual settings
+            if (state.selectedImageIndex >= 0 &&
+                (!state.imageSettings[state.selectedImageIndex] ||
+                 state.imageSettings[state.selectedImageIndex].saturation === undefined)) {
+                debouncedUpdatePreview();
+            }
+        });
+
+        // Sync desktop changes to mobile
+        // Update desktop intensity to also sync to mobile
+        const originalIntensitySliderListener = elements.intensitySlider.oninput;
+        elements.intensitySlider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            elements.mobileIntensitySlider.value = value;
+            elements.mobileIntensityInput.value = value;
+            elements.mobileIntensityValue.textContent = `${value}%`;
+        });
+
+        elements.intensityInput.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value) || 0;
+            const clampedValue = Math.max(0, Math.min(100, value));
+            elements.mobileIntensitySlider.value = clampedValue;
+            elements.mobileIntensityInput.value = clampedValue;
+            elements.mobileIntensityValue.textContent = `${clampedValue}%`;
+        });
+
+        // Update desktop warmth to also sync to mobile
+        elements.warmthSlider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            elements.mobileWarmthSlider.value = value;
+            elements.mobileWarmthInput.value = value;
+            elements.mobileWarmthValue.textContent = value;
+        });
+
+        elements.warmthInput.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value) || 0;
+            const clampedValue = Math.max(-100, Math.min(100, value));
+            elements.mobileWarmthSlider.value = clampedValue;
+            elements.mobileWarmthInput.value = clampedValue;
+            elements.mobileWarmthValue.textContent = clampedValue;
+        });
+
+        // Update desktop saturation to also sync to mobile
+        elements.saturationSlider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            elements.mobileSaturationSlider.value = value;
+            elements.mobileSaturationInput.value = value;
+            elements.mobileSaturationValue.textContent = value;
+        });
+
+        elements.saturationInput.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value) || 0;
+            const clampedValue = Math.max(-100, Math.min(100, value));
+            elements.mobileSaturationSlider.value = clampedValue;
+            elements.mobileSaturationInput.value = clampedValue;
+            elements.mobileSaturationValue.textContent = clampedValue;
+        });
+
+        // Mobile Reset Parameters button
+        elements.mobileResetParamsBtn.addEventListener('click', () => {
+            // Trigger the desktop reset logic by clicking the desktop reset button
+            elements.resetParamsBtn.click();
         });
 
         // Update current preview with new global settings
